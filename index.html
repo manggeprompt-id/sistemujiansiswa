@@ -65,14 +65,21 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwaB5hKHxIIDNfUkGQlhHqvcFaNuD9e2iHG_0TkNWnfu-EcAhA1NK5j4LBtq9kAVw2sLQ/exec";
+        // ==========================================
+        // PASTE URL DEPLOY APP SCRIPT ANDA DI BAWAH INI
+        // ==========================================
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxdCbn14dcAaN-GrYRxJmPXu_gY9qqzxUS4q_RFqrmM9SJo_GpmmJWdzBdbnX28FTsF3w/exec";
 
         const getSafeImageUrl = (url) => {
             if (!url) return '';
             let str = String(url).trim();
+            // Konversi link Google Drive agar bisa langsung tampil tanpa error
             if (str.includes('drive.google.com')) {
                 const match = str.match(/id=([a-zA-Z0-9_-]+)/) || str.match(/\/d\/([a-zA-Z0-9_-]+)/);
-                if (match && match[1]) return `https://lh3.googleusercontent.com/d/$?e=1&sz=1000&id=${match[1]}`;
+                if (match && match[1]) {
+                    // MENGGUNAKAN SERVER LH3 GOOGLE UNTUK MENCEGAH BLOKIR GAMBAR
+                    return `https://lh3.googleusercontent.com/d/${match[1]}`;
+                }
             }
             return str;
         };
@@ -775,7 +782,7 @@
                                     <div>
                                         <label className="block text-sm font-bold mb-1">Nama Sekolah</label>
                                         <input disabled type="text" className="w-full border p-2 rounded bg-slate-100 font-bold text-slate-400 focus:outline-none cursor-not-allowed" value={NAMA_SEKOLAH_FIXED} />
-                                        <p className="text-[10px] text-red-500 mt-1 font-bold"></p>
+                                        <p className="text-[10px] text-red-500 mt-1 font-bold">*Edit nama sekolah langsung di kode HTML</p>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-bold mb-1">Judul / Nama Ujian</label>
@@ -2141,7 +2148,7 @@
             const isImageUrl = (val) => {
                 if (!val) return false;
                 const str = String(val).trim();
-                return str.startsWith('http') || str.startsWith('data:image');
+                return str.startsWith('http') || str.startsWith('data:image') || str.startsWith('https');
             };
 
             const mapelUtama = examData && examData.Mapel ? String(examData.Mapel).split(' - ')[0].trim() : '';
